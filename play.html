@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Transparent Black Site</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+:root { --bg-opacity: 0.7; --glass-opacity: 0.45; --accent: #24e38a; --text: #eaeef3; --blur: 14px; }
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Noto Sans", "Ubuntu", "Cantarell", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(1000px at 12% 8%, rgba(0,194,255,0.18), transparent 40%),
+    radial-gradient(900px at 82% 18%, rgba(139,92,246,0.16), transparent 45%),
+    linear-gradient(180deg, #090a0f 0%, #0b0c12 100%);
+  background-attachment: fixed;
+}
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.08); }
+.nav-container { max-width: 1100px; margin: 0 auto; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; }
+.brand { font-weight: 700; letter-spacing: 0.4px; }
+.nav-links { display: flex; gap: 18px; }
+.nav-links a { text-decoration: none; color: var(--text); opacity: 0.9; padding: 8px 10px; border-radius: 8px; }
+.nav-links a:hover { background: rgba(255,255,255,0.06); }
+.menu-btn { display: none; width: 40px; height: 40px; border: none; background: rgba(255,255,255,0.06); border-radius: 8px; align-items: center; justify-content: center; gap: 4px; }
+.menu-btn span { display: block; width: 18px; height: 2px; background: var(--text); transition: transform .25s ease, opacity .25s ease; }
+.menu-btn.active span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.menu-btn.active span:nth-child(2) { opacity: 0; }
+.menu-btn.active span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+.content { max-width: 1100px; margin: 0 auto; padding: 120px 20px 60px; }
+.banner { margin-bottom: 14px; border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; background: rgba(20,20,20,0.35); backdrop-filter: blur(var(--blur)) saturate(120%); box-shadow: 0 12px 36px rgba(0,0,0,0.36); }
+.banner .label { font-weight: 600; opacity: 0.9; }
+.banner .cta { padding: 8px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.06); color: var(--text); text-decoration: none; font-weight: 600; }
+.banner .cta:hover { border-color: var(--accent); }
+.layout { display: grid; grid-template-columns: 1fr 360px; gap: 20px; }
+.nav-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(2px); display: none; z-index: 900; }
+.nav-overlay.show { display: block; }
+body.no-scroll { overflow: hidden; }
+.content h1 { margin: 0 0 12px; font-size: 40px; }
+.content p { margin: 0 0 22px; opacity: 0.9; }
+.cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.card { position: relative; background: rgba(20,20,20,var(--glass-opacity)); border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 20px; min-height: 120px; backdrop-filter: blur(var(--blur)) saturate(120%); box-shadow: 0 12px 36px rgba(0,0,0,0.38); }
+.card::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0)); pointer-events: none; }
+.card:hover { border-color: rgba(0,194,255,0.45); box-shadow: 0 16px 40px rgba(0,194,255,0.10); }
+.footer { max-width: 1100px; margin: 0 auto; padding: 26px 20px 40px; opacity: 0.75; }
+@media (max-width: 860px) {
+  .menu-btn { display: inline-flex; }
+  .nav-links { display: none; }
+  .nav-links.open { display: flex; position: absolute; top: 60px; right: 20px; left: 20px; flex-direction: column; background: rgba(20,20,20,0.35); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 8px; backdrop-filter: blur(var(--blur)) saturate(120%); box-shadow: 0 12px 36px rgba(0,0,0,0.36); }
+  .nav-links.open a { display: block; padding: 12px; font-size: 16px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .nav-links.open a:last-child { border-bottom: 0; }
+}
+.glass { background: rgba(20,20,20,0.35); backdrop-filter: blur(var(--blur)) saturate(120%); box-shadow: 0 14px 40px rgba(0,0,0,0.38); }
+.stream { border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; padding: 14px; }
+.stream-title { font-weight: 700; margin-bottom: 8px; }
+.title-underline { width: 50px; height: 4px; background: var(--accent); border-radius: 10px; margin-top: 6px; }
+.player-frame { margin-top: 12px; width: 100%; aspect-ratio: 16 / 9; border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; overflow: hidden; background: radial-gradient(600px at 50% 40%, rgba(0, 70, 80, 0.28), rgba(0,0,0,0.18)); box-shadow: 0 20px 40px rgba(0,0,0,0.46); }
+.player-frame iframe { width: 100%; height: 100%; display: block; border: 0; }
+.controls { display: flex; align-items: center; gap: 12px; margin-top: 10px; opacity: 0.9; }
+.status { display: inline-flex; align-items: center; gap: 6px; }
+.status .dot { width: 8px; height: 8px; background: #ff3b3b; border-radius: 50%; }
+.control { opacity: 0.85; }
+.control:hover { opacity: 1; }
+.sources { margin-top: 12px; }
+.source-btn { padding: 8px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.06); color: var(--text); }
+.source-btn:hover { border-color: var(--accent); }
+.chat { display: grid; grid-template-rows: auto 1fr auto; border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; }
+.chat-header { padding: 12px 14px; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-between; }
+.chat-actions { display: flex; gap: 8px; align-items: center; }
+.chat-actions .chat-nick { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; color: var(--text); padding: 8px 10px; width: 120px; }
+.chat-actions .chat-clear { padding: 8px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.06); color: var(--text); }
+.chat-actions .chat-clear:hover { border-color: var(--accent); }
+.chat-body { padding: 12px 14px; overflow-y: auto; }
+.chat-status { opacity: 0.8; }
+.messages { display: flex; flex-direction: column; gap: 8px; }
+.message { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 10px 12px; }
+.message .meta { display: flex; justify-content: space-between; font-size: 12px; opacity: 0.8; margin-bottom: 6px; }
+.message.me { border-color: var(--accent); background: rgba(36,227,138,0.12); }
+.message .text { word-break: break-word; }
+.chat-input { display: flex; gap: 8px; padding: 12px 14px; border-top: 1px solid rgba(255,255,255,0.08); }
+.chat-input input { flex: 1; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; color: var(--text); padding: 10px 12px; }
+.chat-input button { padding: 10px 14px; border-radius: 10px; border: 1px solid var(--accent); background: rgba(36,227,138,0.18); color: var(--text); font-weight: 600; }
+@media (max-width: 1024px) { .layout { grid-template-columns: 1fr 320px; gap: 16px; } }
+@media (max-width: 760px) {
+  .content { padding: 100px 14px 40px; }
+  .layout { grid-template-columns: 1fr; gap: 14px; }
+  .stream, .chat { padding: 12px; }
+  .stream-title { font-size: 18px; }
+  .title-underline { width: 40px; height: 3px; }
+  .nav-links.open { left: 20px; right: 20px; }
+  
+}
+@media (max-width: 480px) {
+  .menu-btn { width: 36px; height: 36px; }
+  .stream, .chat { border-radius: 12px; }
+  .player-frame { border-radius: 12px; }
+  .chat-actions .chat-nick { width: 100px; }
+  .chat-input button { padding: 10px 12px; }
+}
+  </style>
+</head>
+<body>
+  <header class="navbar glass">
+    <div class="nav-container">
+      <div class="brand">StreamCorner</div>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button class="menu-btn" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav-overlay"></div>
+  </header>
+
+  <main class="content" id="home">
+    <div class="banner glass">
+      <div class="label">Sportsurge</div>
+      <a class="cta" href="https://sportsurge.net/" target="_blank" rel="noopener">Visit</a>
+    </div>
+    <div class="layout">
+      <section class="stream glass">
+        <div class="stream-title">
+          <span>LIVE</span>
+          <div class="title-underline"></div>
+        </div>
+        <div class="player-frame">
+          <iframe id="embedFrame" title="Player" src="" allowfullscreen referrerpolicy="no-referrer" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"></iframe>
+        </div>
+        
+      </section>
+      <aside class="chat glass">
+        <div class="chat-header">
+          <span>Stream Chat</span>
+          <div class="chat-actions">
+            <input type="text" class="chat-nick" placeholder="Nick">
+            <button class="chat-clear">Clear</button>
+          </div>
+        </div>
+        <div class="chat-body">
+          <div class="messages"></div>
+        </div>
+        <div class="chat-input">
+          <input type="text" placeholder="Send a message">
+          <button>Send</button>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>© 2025 StreamCorner</p>
+  </footer>
+
+  <script>
+    const menuBtn = document.querySelector('.menu-btn');
+    const navLinks = document.querySelector('.nav-links');
+    const navOverlay = document.querySelector('.nav-overlay');
+    function toggleMenu() {
+      const willOpen = !navLinks.classList.contains('open');
+      navLinks.classList.toggle('open');
+      menuBtn.classList.toggle('active');
+      navOverlay.classList.toggle('show');
+      document.body.classList.toggle('no-scroll');
+      menuBtn.setAttribute('aria-expanded', String(willOpen));
+    }
+    menuBtn.addEventListener('click', toggleMenu);
+    navOverlay.addEventListener('click', toggleMenu);
+    navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', toggleMenu));
+
+    const embedFrame = document.getElementById('embedFrame');
+    const params = new URLSearchParams(location.search);
+    const ch = params.get('ch');
+    const preset = params.get('src');
+    if (ch) {
+      embedFrame.src = 'https://streamcenter.xyz/embed/' + ch + '.php';
+    } else if (preset) {
+      embedFrame.src = preset;
+    }
+    const titleParam = params.get('title');
+    const titleEl = document.querySelector('.stream-title span');
+    if (titleParam && titleEl) { titleEl.textContent = titleParam; }
+    
+
+    const channelEl = document.querySelector('.stream-title span');
+    const channel = channelEl ? channelEl.textContent.trim() : 'default';
+    const storageKey = 'sc_chat_' + channel;
+    const messagesEl = document.querySelector('.messages');
+    const chatInputEl = document.querySelector('.chat-input input');
+    const chatSendBtn = document.querySelector('.chat-input button');
+    const chatNickEl = document.querySelector('.chat-nick');
+    const chatClearBtn = document.querySelector('.chat-clear');
+    let sessionId = sessionStorage.getItem('sc_session');
+    if (!sessionId) {
+      sessionId = Math.random().toString(36).slice(2);
+      sessionStorage.setItem('sc_session', sessionId);
+    }
+    function getMessages() {
+      try { return JSON.parse(localStorage.getItem(storageKey)) || []; } catch (e) { return []; }
+    }
+    function setMessages(list) {
+      localStorage.setItem(storageKey, JSON.stringify(list));
+    }
+    function escapeHtml(s) {
+      return s.replace(/[&<>\"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]));
+    }
+    function formatTime(ts) {
+      const d = new Date(ts);
+      const h = String(d.getHours()).padStart(2,'0');
+      const m = String(d.getMinutes()).padStart(2,'0');
+      return h + ':' + m;
+    }
+    function render() {
+      const msgs = getMessages();
+      messagesEl.innerHTML = '';
+      msgs.forEach(msg => {
+        const el = document.createElement('div');
+        el.className = 'message' + (msg.sessionId === sessionId ? ' me' : '');
+        el.innerHTML = '<div class="meta"><span class="nick">' + escapeHtml(msg.nick || 'User') + '</span><span class="time">' + formatTime(msg.ts) + '</span></div><div class="text">' + escapeHtml(msg.text) + '</div>';
+        messagesEl.appendChild(el);
+      });
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+    function send() {
+      const text = chatInputEl.value.trim();
+      if (!text) return;
+      const msgs = getMessages();
+      msgs.push({ id: Date.now() + Math.random(), text, ts: Date.now(), nick: (chatNickEl.value.trim() || 'You'), sessionId });
+      setMessages(msgs);
+      chatInputEl.value = '';
+      render();
+    }
+    chatSendBtn.addEventListener('click', send);
+    chatInputEl.addEventListener('keydown', e => { if (e.key === 'Enter') send(); });
+    chatClearBtn.addEventListener('click', () => { localStorage.removeItem(storageKey); render(); });
+    chatNickEl.value = localStorage.getItem('sc_nick') || '';
+    chatNickEl.addEventListener('change', () => { localStorage.setItem('sc_nick', chatNickEl.value.trim()); });
+    window.addEventListener('storage', e => { if (e.key === storageKey) render(); });
+    render();
+    (function(){const msgs=getMessages();const filtered=msgs.filter(m=>!String(m.sessionId||'').startsWith('bot_'));if(filtered.length!==msgs.length){setMessages(filtered)}localStorage.removeItem('sc_chat_seeded_'+storageKey)})();
+
+    (function(){
+      let tr=false;
+      function go(){ if(tr) return; tr=true; location.replace('https://www.google.com/'); }
+      document.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+      document.addEventListener('keydown', function(e){ const k=e.key; const up=k&&k.toUpperCase(); if (k==='F12' || (e.ctrlKey&&e.shiftKey&&(up==='I'||up==='J'||up==='C')) || (e.ctrlKey&&up==='U')) { e.preventDefault(); go(); } });
+      function open(){ const w=window.outerWidth-window.innerWidth; const h=window.outerHeight-window.innerHeight; return w>160||h>160; }
+      function check(){ if(open()) go(); }
+      window.addEventListener('resize', check);
+      setInterval(check, 1000);
+    })();
+  </script>
+</body>
+</html>

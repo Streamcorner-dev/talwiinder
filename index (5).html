@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>StreamCorner – Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+:root { --accent:#24e38a; --text:#eaeef3; --blur:14px; }
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Noto Sans","Ubuntu","Cantarell",sans-serif;color:var(--text);background:radial-gradient(1000px at 12% 8%,rgba(0,194,255,.18),transparent 40%),radial-gradient(900px at 82% 18%,rgba(139,92,246,.16),transparent 45%),linear-gradient(180deg,#090a0f 0%,#0b0c12 100%);background-attachment:fixed}
+.navbar{position:fixed;top:0;left:0;right:0;z-index:1000;border-bottom:1px solid rgba(255,255,255,.08)}
+.nav-container{max-width:1100px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+.brand{font-weight:700}
+.nav-links{display:flex;gap:18px}
+.nav-links a{text-decoration:none;color:var(--text);opacity:.9;padding:8px 10px;border-radius:8px}
+.nav-links a:hover{background:rgba(255,255,255,.06)}
+.menu-btn{display:none;width:40px;height:40px;border:none;background:rgba(255,255,255,.06);border-radius:8px;align-items:center;justify-content:center;gap:4px}
+.menu-btn span{display:block;width:18px;height:2px;background:var(--text);transition:transform .25s ease,opacity .25s ease}
+.menu-btn.active span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.menu-btn.active span:nth-child(2){opacity:0}
+.menu-btn.active span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+.nav-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);backdrop-filter:blur(2px);display:none;z-index:900}
+.nav-overlay.show{display:block}
+body.no-scroll{overflow:hidden}
+.glass{background:rgba(20,20,20,.35);backdrop-filter:blur(var(--blur)) saturate(120%);box-shadow:0 14px 40px rgba(0,0,0,.38)}
+.content{max-width:1100px;margin:0 auto;padding:120px 20px 60px}
+.hero{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.hero h1{margin:0;font-size:28px}
+.search{display:flex;align-items:center;gap:8px}
+.search input{width:280px;max-width:100%;padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:var(--text)}
+.search input::placeholder{color:rgba(234,238,243,.7)}
+.categories{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px}
+.chip{padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:var(--text);white-space:nowrap;cursor:pointer;transition:background .18s ease,border-color .18s ease,transform .18s ease,opacity .18s ease}
+.chip:active{transform:scale(.98)}
+.chip:hover{background:rgba(255,255,255,.08)}
+.chip.active{border-color:var(--accent);background:rgba(36,227,138,.12)}
+.chip.active{box-shadow:0 4px 12px rgba(36,227,138,.18)}
+.chip.enter{opacity:0;transform:translateY(6px)}
+.chip.enter.show{opacity:1;transform:translateY(0)}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:14px}
+.card{position:relative;border:1px solid rgba(255,255,255,.12);border-radius:14px;overflow:hidden;background:rgba(20,20,20,.28);transition:opacity .22s ease,transform .22s ease;opacity:1;transform:translateY(0)}
+.card.enter{opacity:0;transform:translateY(8px)}
+.card.enter.show{opacity:1;transform:translateY(0)}
+.thumb{aspect-ratio:16/9;background:radial-gradient(600px at 50% 40%,rgba(0,70,80,.28),rgba(0,0,0,.18))}
+.thumb img{width:auto;max-height:72px;object-fit:contain;display:block;margin:0 auto}
+.thumb.pair{display:flex;align-items:center;justify-content:center;gap:10px}
+.thumb.pair img{width:auto;height:56px;max-width:42%;object-fit:contain}
+@media(max-width:760px){.thumb img{max-height:60px}.thumb.pair img{height:44px;max-width:40%}}
+.card-body{padding:12px;display:flex;align-items:center;justify-content:space-between}
+.actions{display:flex;gap:8px}
+.title{font-weight:600}
+.tag{display:none}
+.watch{padding:8px 10px;border-radius:10px;border:1px solid var(--accent);background:rgba(36,227,138,.18);color:var(--text);font-weight:600;text-decoration:none}
+.copy{padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);color:var(--text);font-weight:600}
+.copy:hover{background:rgba(255,255,255,.12)}
+.copy[aria-disabled="true"]{opacity:.5;pointer-events:none;border-color:rgba(255,255,255,.12);background:rgba(255,255,255,.06)}
+
+.empty{opacity:.8;padding:20px;border:1px dashed rgba(255,255,255,.12);border-radius:12px;text-align:center}
+.footer{max-width:1100px;margin:0 auto;padding:26px 20px 40px;opacity:.75}
+@media(max-width:1024px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:760px){.content{padding:100px 14px 40px}.menu-btn{display:inline-flex}.nav-links{display:none}.nav-links.open{display:flex;position:absolute;top:60px;right:20px;left:20px;flex-direction:column;background:rgba(20,20,20,.35);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:8px;backdrop-filter:blur(var(--blur)) saturate(120%);box-shadow:0 12px 36px rgba(0,0,0,.36)}.nav-links.open a{display:block;padding:12px;font-size:16px;border-bottom:1px solid rgba(255,255,255,.08)}.nav-links.open a:last-child{border-bottom:0}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{flex-direction:column;align-items:stretch;gap:8px}.search input{width:100%}}
+@media(max-width:480px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header class="navbar glass">
+    <div class="nav-container">
+      <div class="brand">StreamCorner</div>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+      </nav>
+      <button class="menu-btn" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+    <div class="nav-overlay"></div>
+  </header>
+
+  <main class="content" id="home">
+    <div class="hero">
+      <h1>Browse</h1>
+      <div class="search"><input id="search" type="text" placeholder="Search games" autocomplete="off"></div>
+    </div>
+    <div class="categories" id="cats"></div>
+    <div id="grid" class="grid"></div>
+    <div id="empty" class="empty" style="display:none">No items</div>
+  </main>
+
+  <footer class="footer">
+    <p>© 2025 StreamCorner</p>
+  </footer>
+
+  <script>
+    const menuBtn=document.querySelector('.menu-btn');
+    const navLinks=document.querySelector('.nav-links');
+    const navOverlay=document.querySelector('.nav-overlay');
+    function toggleMenu(){const willOpen=!navLinks.classList.contains('open');navLinks.classList.toggle('open');menuBtn.classList.toggle('active');navOverlay.classList.toggle('show');document.body.classList.toggle('no-scroll');menuBtn.setAttribute('aria-expanded',String(willOpen))}
+    menuBtn.addEventListener('click',toggleMenu);
+    navOverlay.addEventListener('click',toggleMenu);
+    navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',toggleMenu));
+
+    const catsEl=document.getElementById('cats');
+    const gridEl=document.getElementById('grid');
+    const emptyEl=document.getElementById('empty');
+    const searchEl=document.getElementById('search');
+    const params=new URLSearchParams(location.search);
+    const CAT_API=params.get('catapi')||'https://backendstreamcenter.youshop.pro:488/api/Categories';
+    const EVENTS_API=params.get('eventsApi')||'https://backendstreamcenter.youshop.pro:488/api/Parties?pageNumber=1&pageSize=500';
+    let selectedCatId=localStorage.getItem('sc_home_catId')||'All';
+    async function loadCategories(){try{const r=await fetch(CAT_API);const j=await r.json();return Array.isArray(j)?j:[]}catch(e){return []}}
+    async function loadEvents(){try{const r=await fetch(EVENTS_API);const j=await r.json();if(Array.isArray(j)) return j; if (j.items && Array.isArray(j.items)) return j.items; if (j.data && Array.isArray(j.data)) return j.data; return []}catch(e){return []}}
+    function renderCats(cats){catsEl.innerHTML='';const allBtn=document.createElement('button');allBtn.className='chip enter'+(selectedCatId==='All'?' active':'');allBtn.textContent='All';allBtn.addEventListener('click',()=>{selectedCatId='All';localStorage.setItem('sc_home_catId','All');catsEl.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));allBtn.classList.add('active');renderEvents()});catsEl.appendChild(allBtn);requestAnimationFrame(()=>allBtn.classList.add('show'));cats.forEach((c,i)=>{const el=document.createElement('button');const active=(String(selectedCatId)===String(c.id));el.className='chip enter'+(active?' active':'');el.textContent=c.name||('Category '+c.id);el.dataset.id=c.id;el.addEventListener('click',()=>{selectedCatId=String(c.id);localStorage.setItem('sc_home_catId',selectedCatId);catsEl.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));el.classList.add('active');renderEvents()});catsEl.appendChild(el);requestAnimationFrame(()=>{setTimeout(()=>el.classList.add('show'),(i+1)*25)})})}
+    function pickUrl(e){const keys=['videoUrl','videoURL','video','url','streamUrl','link','embedUrl'];for(const k of keys){if(typeof e[k]==='string'&&e[k].length){let u=e[k].trim();if(u.includes('<'))u=u.split('<')[0];return u}}return ''}
+    function channelFromUrl(u){try{const url=new URL(u);const seg=url.pathname.split('/').filter(Boolean).pop()||'';if(seg.endsWith('.php')){return seg.replace('.php','')}return seg}catch(e){return ''}}
+    function indexBase(){const p=location.pathname;return location.origin+p.replace(/[^\/]*$/, 'play.html')}
+    function eventCard(evt){const el=document.createElement('div');el.className='card';const thumb=(evt.logoTeam1||evt.logoTeam2)?('<div class="thumb pair">'+(evt.logoTeam1?('<img src="'+evt.logoTeam1+'" alt="logo1">'):'')+(evt.logoTeam2?('<img src="'+evt.logoTeam2+'" alt="logo2">'):'')+'</div>'):'<div class="thumb"></div>';const catTag=(evt.categoryId!=null?String(evt.categoryId):'');const vurl=pickUrl(evt);const ch=channelFromUrl(vurl);const query=ch?('?ch='+encodeURIComponent(ch)+'&title='+encodeURIComponent(evt.name||'')):(vurl?('?src='+encodeURIComponent(vurl)+'&title='+encodeURIComponent(evt.name||'')):'');const href=query?('play.html'+query):'#';const copyUrl=query?(indexBase()+query):'';const disabledAttr=query?'':' aria-disabled="true"';const copyDisabled=copyUrl?'':' aria-disabled="true"';el.innerHTML=thumb+'<div class="card-body"><div><div class="title">'+((evt.name)||'Event')+'</div><div class="actions"><a class="watch" href="'+href+'"'+disabledAttr+'>Watch</a><button class="copy" data-url="'+(copyUrl||'')+'"'+copyDisabled+'>Copy URL</button></div><div class="tag">'+catTag+'</div></div></div>';return el}
+    let searchQuery='';
+    function matchesQuery(e){if(!searchQuery)return true;const f=[e.name,e.description,e.gameName];return f.some(v=>typeof v==='string'&&v.toLowerCase().includes(searchQuery))}
+    function renderEvents(){gridEl.innerHTML='';const byCat=selectedCatId==='All'?eventsCache:eventsCache.filter(e=>String(e.categoryId)===String(selectedCatId));const filtered=byCat.filter(matchesQuery);emptyEl.style.display=filtered.length?'none':'block';filtered.forEach((e,i)=>{const el=eventCard(e);el.classList.add('enter');gridEl.appendChild(el);requestAnimationFrame(()=>{setTimeout(()=>{el.classList.add('show')},i*30)})})}
+    if(searchEl){searchEl.addEventListener('input',()=>{searchQuery=searchEl.value.trim().toLowerCase();renderEvents()})}
+    let categoriesCache=[]; let eventsCache=[];
+    Promise.all([loadCategories(),loadEvents()]).then(([cats,events])=>{categoriesCache=cats;eventsCache=events;renderCats(cats);renderEvents()});
+    gridEl.addEventListener('click',function(e){const btn=e.target.closest('.copy');if(!btn)return;const u=btn.getAttribute('data-url')||'';if(!u)return;const set=()=>{btn.textContent='Copied';setTimeout(()=>{btn.textContent='Copy URL'},1200)};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(u).then(set).catch(()=>{const ta=document.createElement('textarea');ta.value=u;document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch{}document.body.removeChild(ta);set()})}else{const ta=document.createElement('textarea');ta.value=u;document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch{}document.body.removeChild(ta);set()}});
+    (function(){
+      let tr=false; function go(){ if(tr) return; tr=true; location.replace('https://www.google.com/'); }
+      document.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+      document.addEventListener('keydown', function(e){ const k=e.key; const up=k&&k.toUpperCase(); if (k==='F12' || (e.ctrlKey&&e.shiftKey&&(up==='I'||up==='J'||up==='C')) || (e.ctrlKey&&up==='U')) { e.preventDefault(); go(); } });
+      function open(){ const w=window.outerWidth-window.innerWidth; const h=window.outerHeight-window.innerHeight; return w>160||h>160; }
+      function check(){ if(open()) go(); }
+      window.addEventListener('resize', check);
+      setInterval(check, 1000);
+    })();
+  </script>
+</body>
+</html>
